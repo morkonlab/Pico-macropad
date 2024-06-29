@@ -12,9 +12,8 @@
 ### Code
 ```
 """
-Pi pico rotary encoder volume control with click support
+Pi pico rotary encoder volume control with click support and 5 programmable keys
 """
-import storage
 import board #importing board module
 import time #importing time module
 import digitalio #importing digitalio module
