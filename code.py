@@ -1,5 +1,5 @@
 """
-Pi pico rotary encoder volume control with click support and 5 programmable keys
+Pi pico rotary encoder volume control with click support
 """
 import board #importing board module
 import time #importing time module
@@ -44,11 +44,11 @@ btn5.direction = digitalio.Direction.INPUT
 btn5.pull = digitalio.Pull.DOWN
 
 #This is where we define the pins for the rotary encoder
-CLK_PIN = board.GP14
-DT_PIN = board.GP15
-SW_PIN = board.GP13 
-clk_last = None
-sw_last = None
+S2_PIN = board.GP14
+S1_PIN = board.GP15
+KEY_PIN = board.GP13 
+s2_last = None
+key_last = None
 #totalMode = 3
 currentMode = 2
 
@@ -58,16 +58,16 @@ mouse = Mouse(usb_hid.devices)
 keyboard = Keyboard(usb_hid.devices)
 
 #This is where we create variables to listen to the rotary encoder's direction
-clk = digitalio.DigitalInOut(CLK_PIN)
-clk.direction = digitalio.Direction.INPUT
+s2 = digitalio.DigitalInOut(S2_PIN)
+s2.direction = digitalio.Direction.INPUT
 
-dt = digitalio.DigitalInOut(DT_PIN)
-dt.direction = digitalio.Direction.INPUT
+s1 = digitalio.DigitalInOut(S1_PIN)
+s1.direction = digitalio.Direction.INPUT
 
 #This is where we create variables to listen to the rotary encoder's button press
-sw = digitalio.DigitalInOut(SW_PIN)
-sw.direction = digitalio.Direction.INPUT
-sw.pull = digitalio.Pull.UP
+key = digitalio.DigitalInOut(KEY_PIN)
+key.direction = digitalio.Direction.INPUT
+key.pull = digitalio.Pull.UP
 
 #These are the functions for bringing volume up, down, and muting the sound
 def ccw():
@@ -92,20 +92,20 @@ keyboard = Keyboard(usb_hid.devices)
 #This is where the fun begins!
 while True: #setting up infinite loop
     
-    clkState = clk.value
-    if(clk_last != clkState):
-        if(dt.value != clkState):
+    s2State = s2.value
+    if(s2_last != s2State):
+        if(s1.value != s2State):
             cw()
         else:
             ccw()
             
-    clk_last = clkState
+    s2_last = s2State
     
-    swState = sw.value
-    if sw_last != swState: #if button 1 pressed
+    keyState = key.value
+    if key_last != keyState: #if button 1 pressed
         mute() #sending out code for 1
         time.sleep(0.2) #sleep for a spell
-    sw_last = sw.value
+    key_last = key.value
     
     #This is where we tie the switch presses to keycodes from the Keycode module
     if btn1.value: #if button 1 pressed
