@@ -6,6 +6,9 @@
 - 5 mx keys
 - wire
 
+### Circuitpython
+Install Circuitpython >= v9.0.5 on the Pi Pico
+
 ### Diagram
 ![diagram](macropad-diagram.png)
 
